@@ -1,3 +1,4 @@
+import Header from "@/components/layout/Header";
 import ImageSlider from "@/components/home/ImageSlider";
 import TextSlider from "@/components/home/TextSlider";
 import ContentCards from "@/components/home/ContentCards";
@@ -10,6 +11,9 @@ import Footer from "@/components/layout/Footer";
 export default function HomePage() {
   return (
     <main>
+      {/* Header / Navbar */}
+      <Header />
+
       {/* 1. Hero Image Slider (CMS: อัตราส่วน 20:7 / 7929×2779) */}
       <ImageSlider />
 
