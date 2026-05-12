@@ -52,13 +52,11 @@ export default function Header({ menuItems }: Props) {
       <div className="site-header__inner">
         {/* ── Logo ── */}
         <Link href="/" className="site-header__logo">
-          <div className="site-header__logo-emblem">
-            <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
-              <circle cx="20" cy="20" r="19" stroke="rgba(255,255,255,0.5)" strokeWidth="1.5" fill="rgba(255,255,255,0.1)" />
-              <circle cx="20" cy="20" r="14" stroke="rgba(255,255,255,0.3)" strokeWidth="1" fill="none" />
-              <text x="20" y="24" textAnchor="middle" fill="white" fontSize="11" fontWeight="700">TLAA</text>
-            </svg>
-          </div>
+          <img
+            src="/logo2024_mobile.png"
+            alt="สมาคมประกันชีวิตไทย"
+            className="site-header__logo-img"
+          />
           <div className="site-header__logo-text">
             <span className="site-header__logo-th">สมาคมประกันชีวิตไทย</span>
             <span className="site-header__logo-en">The Thai Life Assurance Association</span>
