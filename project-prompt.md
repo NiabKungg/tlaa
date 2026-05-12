@@ -41,10 +41,10 @@ I will provide UI screenshots page by page. For every page I share, you must:
 ## 6. Current Project Progress Tracker
 *Update this section before starting a new chat session to maintain context.*
 
-- [ ] Initial Architecture Setup (Docker, Folder Structure)
-- [ ] Database Connection & Base Models
-- [ ] Authentication System (Admin Login)
-- [ ] Home Page (UI + CMS API)
+- [x] Initial Architecture Setup (Docker, Folder Structure)
+- [x] Database Connection & Base Models
+- [x] Authentication System (Admin Login)
+- [x] Home Page (UI + CMS API)
 - [ ] About Association Page (UI + CMS API)
 - [ ] News/Activities Page (UI + CMS API)
 - [ ] Contact Page (UI + CMS API)
