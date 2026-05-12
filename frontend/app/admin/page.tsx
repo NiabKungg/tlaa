@@ -27,6 +27,21 @@ export default function AdminDashboard() {
           </Link>
         ))}
       </div>
+
+      <h2 style={{ margin: "2rem 0 1rem", fontSize: "1.1rem", color: "#1e293b" }}>📄 จัดการเนื้อหาหน้าอื่นๆ</h2>
+      <div className="admin-dashboard__grid">
+        <Link
+          href="/admin/about-history"
+          className="admin-dashboard__card"
+        >
+          <span className="admin-dashboard__card-icon">📜</span>
+          <h3 className="admin-dashboard__card-title">ประวัติสมาคม</h3>
+          <p className="admin-dashboard__card-desc">
+            จัดการเนื้อหาหน้าประวัติสมาคม (About History)
+          </p>
+          <span className="admin-dashboard__card-arrow">→</span>
+        </Link>
+      </div>
     </div>
   );
 }
