@@ -359,3 +359,14 @@ a:hover{color:var(--color-accent)}
 .admin-toggle.active{background:#16a34a}
 .admin-toggle__thumb{position:absolute;top:2px;left:2px;width:20px;height:20px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.2);transition:transform var(--transition-fast)}
 .admin-toggle.active .admin-toggle__thumb{transform:translateX(20px)}
+
+/* ── Image Upload ── */
+.admin-image-preview{position:relative;display:inline-block;margin-bottom:.5rem;border-radius:var(--radius-md);overflow:hidden;border:1px solid var(--color-border);max-width:100%}
+.admin-image-preview img{display:block;max-width:100%;max-height:180px;object-fit:contain;background:#f8fafc}
+.admin-image-preview__remove{position:absolute;top:4px;right:4px;width:24px;height:24px;border-radius:50%;background:rgba(220,38,38,.9);color:#fff;border:none;cursor:pointer;font-size:.75rem;display:flex;align-items:center;justify-content:center;transition:background var(--transition-fast)}
+.admin-image-preview__remove:hover{background:#b91c1c}
+.admin-image-upload{display:flex;align-items:center;gap:.5rem;flex-wrap:wrap}
+.admin-image-upload label{cursor:pointer}
+.admin-image-upload__or{font-size:.75rem;color:var(--color-text-muted)}
+.admin-image-upload__url{flex:1;min-width:160px;padding:.4rem .6rem;border:1px solid var(--color-border);border-radius:var(--radius-md);font-size:.8rem}
+.admin-image-upload__url:focus{outline:none;border-color:var(--color-primary-light);box-shadow:0 0 0 3px rgba(45,90,158,.1)}

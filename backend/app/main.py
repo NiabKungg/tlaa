@@ -9,7 +9,7 @@ import os
 
 from app.core.config import settings
 from app.core.database import engine, Base
-from app.api import public, admin, auth, home_public, home_admin
+from app.api import public, admin, auth, home_public, home_admin, upload
 
 
 @asynccontextmanager
@@ -55,6 +55,7 @@ app.include_router(public.router, prefix="/api/public", tags=["Public"])
 app.include_router(admin.router, prefix="/api/admin", tags=["Admin CMS"])
 app.include_router(home_public.router, prefix="/api/public/home", tags=["Home Page Public"])
 app.include_router(home_admin.router, prefix="/api/admin/home", tags=["Home Page Admin"])
+app.include_router(upload.router, prefix="/api/admin", tags=["File Upload"])
 
 
 @app.get("/api/health", tags=["Health"])

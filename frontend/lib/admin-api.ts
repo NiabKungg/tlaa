@@ -42,11 +42,33 @@ export async function adminLogin(
   return res.json();
 }
 
+/** Upload a file and return the URL path */
+export async function uploadFile(
+  file: File,
+  token: string
+): Promise<{ url: string; filename: string; size: number }> {
+  const formData = new FormData();
+  formData.append("file", file);
+
+  const res = await fetch(`${API_BASE}/api/admin/upload`, {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+    body: formData,
+  });
+  if (!res.ok) {
+    const text = await res.text().catch(() => "");
+    throw new Error(`Upload failed: ${text}`);
+  }
+  return res.json();
+}
+
 /** Section config — field definitions for the dynamic CRUD UI */
 export interface FieldDef {
   key: string;
   label: string;
-  type: "text" | "textarea" | "url" | "number" | "toggle" | "select";
+  type: "text" | "textarea" | "url" | "image" | "number" | "toggle" | "select";
   required?: boolean;
   options?: string[];     // for select type
   placeholder?: string;
@@ -71,7 +93,7 @@ export const SECTIONS: SectionConfig[] = [
     fields: [
       { key: "title", label: "หัวข้อ", type: "text" },
       { key: "subtitle", label: "คำบรรยาย", type: "textarea" },
-      { key: "image_url", label: "URL รูปภาพ (20:7)", type: "url" },
+      { key: "image_url", label: "รูปภาพ (20:7)", type: "image" },
       { key: "link_url", label: "ลิงก์", type: "url" },
       { key: "link_text", label: "ข้อความปุ่ม", type: "text" },
       { key: "order", label: "ลำดับ", type: "number", required: true },
@@ -99,7 +121,7 @@ export const SECTIONS: SectionConfig[] = [
     fields: [
       { key: "title", label: "หัวข้อ", type: "text", required: true },
       { key: "description", label: "รายละเอียด", type: "textarea" },
-      { key: "image_url", label: "URL รูปภาพ", type: "url" },
+      { key: "image_url", label: "รูปภาพ", type: "image" },
       { key: "link_url", label: "ลิงก์", type: "url" },
       { key: "category", label: "หมวดหมู่", type: "text" },
       { key: "date_text", label: "วันที่แสดง", type: "text" },
@@ -117,7 +139,7 @@ export const SECTIONS: SectionConfig[] = [
     fields: [
       { key: "title", label: "ชื่อวิดีโอ", type: "text", required: true },
       { key: "youtube_url", label: "YouTube URL", type: "url", required: true },
-      { key: "thumbnail_url", label: "URL ภาพปก", type: "url" },
+      { key: "thumbnail_url", label: "ภาพปก", type: "image" },
       { key: "description", label: "รายละเอียด", type: "textarea" },
       { key: "order", label: "ลำดับ", type: "number", required: true },
       { key: "is_active", label: "แสดงผล", type: "toggle" },
@@ -134,7 +156,7 @@ export const SECTIONS: SectionConfig[] = [
       { key: "description", label: "รายละเอียด", type: "textarea" },
       { key: "stat_number", label: "ตัวเลข", type: "text" },
       { key: "stat_label", label: "คำอธิบายตัวเลข", type: "text" },
-      { key: "icon_url", label: "URL ไอคอน", type: "url" },
+      { key: "icon_url", label: "ไอคอน", type: "image" },
       { key: "order", label: "ลำดับ", type: "number", required: true },
       { key: "is_active", label: "แสดงผล", type: "toggle" },
     ],
@@ -147,7 +169,7 @@ export const SECTIONS: SectionConfig[] = [
     titleField: "company_name",
     fields: [
       { key: "company_name", label: "ชื่อบริษัท", type: "text", required: true },
-      { key: "logo_url", label: "URL โลโก้", type: "url", required: true },
+      { key: "logo_url", label: "โลโก้", type: "image", required: true },
       { key: "website_url", label: "เว็บไซต์", type: "url" },
       { key: "order", label: "ลำดับ", type: "number", required: true },
       { key: "is_active", label: "แสดงผล", type: "toggle" },
@@ -161,7 +183,7 @@ export const SECTIONS: SectionConfig[] = [
     titleField: "title",
     fields: [
       { key: "title", label: "หัวข้อ", type: "text" },
-      { key: "image_url", label: "URL รูปภาพ", type: "url", required: true },
+      { key: "image_url", label: "รูปภาพ", type: "image", required: true },
       { key: "link_url", label: "ลิงก์", type: "url" },
       { key: "category", label: "หมวดหมู่", type: "text" },
       { key: "order", label: "ลำดับ", type: "number", required: true },
@@ -177,7 +199,7 @@ export const SECTIONS: SectionConfig[] = [
     fields: [
       { key: "title", label: "หัวข้อ", type: "text", required: true },
       { key: "description", label: "รายละเอียด", type: "textarea" },
-      { key: "image_url", label: "URL รูปภาพ", type: "url", required: true },
+      { key: "image_url", label: "รูปภาพ", type: "image", required: true },
       { key: "link_url", label: "ลิงก์", type: "url" },
       { key: "order", label: "ลำดับ", type: "number", required: true },
       { key: "is_active", label: "แสดงผล", type: "toggle" },
@@ -193,7 +215,7 @@ export const SECTIONS: SectionConfig[] = [
       { key: "section_key", label: "Key (address/contact/social/quick_links)", type: "text", required: true },
       { key: "title", label: "หัวข้อ", type: "text" },
       { key: "body", label: "เนื้อหา", type: "textarea" },
-      { key: "image_url", label: "URL รูปภาพ", type: "url" },
+      { key: "image_url", label: "รูปภาพ", type: "image" },
       { key: "link_url", label: "ลิงก์", type: "url" },
       { key: "link_text", label: "ข้อความลิงก์", type: "text" },
       { key: "order", label: "ลำดับ", type: "number", required: true },

@@ -2,7 +2,7 @@
 
 import { useEffect, useState, useCallback } from "react";
 import { useParams, useRouter } from "next/navigation";
-import { adminFetch, SECTIONS, type SectionConfig, type FieldDef } from "@/lib/admin-api";
+import { adminFetch, uploadFile, SECTIONS, type SectionConfig, type FieldDef } from "@/lib/admin-api";
 
 export default function AdminSectionPage() {
   const params = useParams();
@@ -246,6 +246,8 @@ function FieldInput({
   value: any;
   onChange: (val: any) => void;
 }) {
+  const [uploading, setUploading] = useState(false);
+
   if (field.type === "toggle") {
     return (
       <div className="admin-form-group admin-form-group--toggle">
@@ -275,16 +277,77 @@ function FieldInput({
     );
   }
 
+  if (field.type === "image") {
+    const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+      const file = e.target.files?.[0];
+      if (!file) return;
+      const token = localStorage.getItem("admin_token");
+      if (!token) return;
+
+      setUploading(true);
+      try {
+        const result = await uploadFile(file, token);
+        onChange(result.url);
+      } catch (err: any) {
+        alert("อัปโหลดไม่สำเร็จ: " + err.message);
+      } finally {
+        setUploading(false);
+      }
+    };
+
+    return (
+      <div className="admin-form-group">
+        <label>{field.label} {field.required && <span className="required">*</span>}</label>
+
+        {/* Preview */}
+        {value && (
+          <div className="admin-image-preview">
+            <img src={value} alt="Preview" />
+            <button
+              type="button"
+              className="admin-image-preview__remove"
+              onClick={() => onChange("")}
+              title="ลบรูป"
+            >✕</button>
+          </div>
+        )}
+
+        {/* Upload button */}
+        <div className="admin-image-upload">
+          <label className={`admin-btn admin-btn--sm ${uploading ? "" : ""}`}>
+            {uploading ? "⏳ กำลังอัปโหลด..." : "📁 เลือกรูปจากคอมพิวเตอร์"}
+            <input
+              type="file"
+              accept="image/*"
+              onChange={handleFileChange}
+              disabled={uploading}
+              style={{ display: "none" }}
+            />
+          </label>
+          <span className="admin-image-upload__or">หรือ</span>
+          <input
+            type="url"
+            value={value || ""}
+            onChange={(e) => onChange(e.target.value)}
+            placeholder="วาง URL รูปภาพ"
+            className="admin-image-upload__url"
+          />
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="admin-form-group">
       <label>{field.label} {field.required && <span className="required">*</span>}</label>
       <input
         type={field.type === "number" ? "number" : field.type === "url" ? "url" : "text"}
         value={value ?? ""}
-        onChange={(e) => onChange(field.type === "number" ? e.target.value : e.target.value)}
+        onChange={(e) => onChange(e.target.value)}
         placeholder={field.placeholder || field.label}
         required={field.required}
       />
     </div>
   );
 }
+
