@@ -37,9 +37,6 @@ export default function TextSlider({ slides }: Props) {
         {/* Duplicate content twice for seamless infinite loop */}
         <div className="text-slider__marquee-inner">
           <span className="text-slider__marquee-text">{fullText}</span>
-          <span className="text-slider__marquee-separator">     ●     </span>
-          <span className="text-slider__marquee-text">{fullText}</span>
-          <span className="text-slider__marquee-separator">     ●     </span>
         </div>
       </div>
     </section>
